@@ -55,7 +55,7 @@ In alternativa al controllo classico, SpiderBot implementa un paradigma **Neural
 │   ├── train_spider.py    # Script di addestramento PPO
 │   └── spiderbot.xml      # Descrizione MJCF del robot
 └── Mujoco-Jax-TEL/        # Script di telemetria e testing delle policy caricate
-'
+''
 
 ---
 
