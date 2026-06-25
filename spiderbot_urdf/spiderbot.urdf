@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<robot name="spiderbot">
+
+  <material name="gold">
+    <color rgba="1.0 0.84 0.0 1.0"/>
+  </material>
+  
+  <material name="dark_grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+
+  <link name="base_link"/>
+
+  <joint name="base_to_body" type="fixed">
+    <parent link="base_link"/>
+    <child link="body"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.2"/>
+      <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.008"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Body.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="gold"/> </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Body.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  
+  <link name="upperbody">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.4"/>
+      <inertia ixx="0.0015" ixy="0.0" ixz="0.0" iyy="0.0015" iyz="0.0" izz="0.003"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.005" rpy="0 0 -1.5708"/>
+      <geometry><mesh filename="models/Upper_Body.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/> </visual>
+    <collision>
+      <origin xyz="0 0 0.005" rpy="0 0 -1.5708"/>
+      <geometry><mesh filename="models/Upper_Body.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="body_to_upperbody" type="fixed">
+    <parent link="body"/>
+    <child link="upperbody"/>
+    <origin xyz="0 0 0.04" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="FR_coxa_joint" type="revolute">
+    <parent link="body"/>
+    <child link="FR_leg_a"/>
+    <origin xyz="0.1083 0.0625 0.02" rpy="0 0 -1.0472"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FR_leg_a">
+    <inertial>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00008" iyz="0.0" izz="0.00008"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/> </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="FR_femur_joint" type="revolute">
+    <parent link="FR_leg_a"/>
+    <child link="FR_leg_b"/>
+    <origin xyz="0.00 0.03 -0.005" rpy="0 0 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FR_leg_b">
+    <inertial>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia ixx="0.00006" ixy="0.0" ixz="0.0" iyy="0.00025" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="gold"/> </visual>
+    <collision>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="FR_tibia_joint" type="revolute">
+    <parent link="FR_leg_b"/>
+    <child link="FR_leg_c"/>
+    <origin xyz="0 -0.085 0" rpy="0 0 1.5708"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.5" upper="2.5" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FR_leg_c">
+    <inertial>
+      <origin xyz="0.08 0 -0.08" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.0006"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/> </visual>
+    <collision>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+
+  <joint name="FL_coxa_joint" type="revolute">
+    <parent link="body"/>
+    <child link="FL_leg_a"/>
+    <origin xyz="-0.1083 0.0625 0.02" rpy="0 0 1.0472"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FL_leg_a">
+    <inertial>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00008" iyz="0.0" izz="0.00008"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="FL_femur_joint" type="revolute">
+    <parent link="FL_leg_a"/>
+    <child link="FL_leg_b"/>
+    <origin xyz="0.00 0.03 -0.005" rpy="0 0 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FL_leg_b">
+    <inertial>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia ixx="0.00006" ixy="0.0" ixz="0.0" iyy="0.00025" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="gold"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="FL_tibia_joint" type="revolute">
+    <parent link="FL_leg_b"/>
+    <child link="FL_leg_c"/>
+    <origin xyz="0 -0.085 0" rpy="0 0 1.5708"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.5" upper="2.5" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="FL_leg_c">
+    <inertial>
+      <origin xyz="0.08 0 -0.08" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.0006"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+
+  <joint name="RL_coxa_joint" type="revolute">
+    <parent link="body"/>
+    <child link="RL_leg_a"/>
+    <origin xyz="-0.1083 -0.0625 0.02" rpy="0 0 2.0944"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RL_leg_a">
+    <inertial>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00008" iyz="0.0" izz="0.00008"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="RL_femur_joint" type="revolute">
+    <parent link="RL_leg_a"/>
+    <child link="RL_leg_b"/>
+    <origin xyz="0.00 0.03 -0.005" rpy="0 0 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RL_leg_b">
+    <inertial>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia ixx="0.00006" ixy="0.0" ixz="0.0" iyy="0.00025" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="gold"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="RL_tibia_joint" type="revolute">
+    <parent link="RL_leg_b"/>
+    <child link="RL_leg_c"/>
+    <origin xyz="0 -0.085 0" rpy="0 0 1.5708"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.5" upper="2.5" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RL_leg_c">
+    <inertial>
+      <origin xyz="0.08 0 -0.08" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.0006"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+
+  <joint name="RR_coxa_joint" type="revolute">
+    <parent link="body"/>
+    <child link="RR_leg_a"/>
+    <origin xyz="0.1083 -0.0625 0.02" rpy="0 0 -2.0944"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RR_leg_a">
+    <inertial>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00008" iyz="0.0" izz="0.00008"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_A.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="RR_femur_joint" type="revolute">
+    <parent link="RR_leg_a"/>
+    <child link="RR_leg_b"/>
+    <origin xyz="0.00 0.03 -0.005" rpy="0 0 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RR_leg_b">
+    <inertial>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia ixx="0.00006" ixy="0.0" ixz="0.0" iyy="0.00025" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="gold"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.016 0" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_B.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="RR_tibia_joint" type="revolute">
+    <parent link="RR_leg_b"/>
+    <child link="RR_leg_c"/>
+    <origin xyz="0 -0.085 0" rpy="0 0 1.5708"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.5" upper="2.5" effort="10" velocity="3"/>
+  </joint>
+
+  <link name="RR_leg_c">
+    <inertial>
+      <origin xyz="0.08 0 -0.08" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.0006"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.08" rpy="0 0 0"/>
+      <geometry><mesh filename="models/Leg_C.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+
+</robot>

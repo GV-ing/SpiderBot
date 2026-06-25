@@ -1,0 +1,120 @@
+<mujoco model="spiderbot">
+  <compiler angle="radian" autolimits="true"/>
+
+  <!--
+    timestep=0.005 è buono per gait learning.
+    solver CG + iterations basse = ottimizzato per MJX (JAX GPU).
+  -->
+  <option gravity="0 0 -9.81" timestep="0.005" solver="CG" iterations="6" ls_iterations="6"/>
+
+  <default>
+    <joint armature="0.01" damping="0.5" frictionloss="0.0"/>
+    <geom condim="3" friction="0.8 0.1 0.1"/>
+    <position kp="15" forcerange="-10 10"/>
+  </default>
+
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" diffuse="1 1 1"/>
+    <!-- Piano di collisione: INDISPENSABILE, mancava nel URDF originale -->
+    <geom name="floor" type="plane" size="10 10 0.1" rgba="0.5 0.5 0.5 1" condim="3"/>
+
+    <!-- Il torso ha un freejoint: permette il moto libero nello spazio (6 DOF).
+         qpos: [x, y, z, qw, qx, qy, qz, 12 joint angles] = 19 elementi
+         qvel: [vx, vy, vz, wx, wy, wz, 12 joint vels]    = 18 elementi   -->
+    <body name="torso" pos="0 0 0.25">
+      <freejoint name="root"/>
+      <inertial pos="0 0 0" mass="1.42" diaginertia="0.0045 0.0045 0.009"/>
+      <geom name="torso_box" size="0.11 0.065 0.025" type="box" rgba="1 0.84 0 1"/>
+
+      <!-- FR: Front-Right -->
+      <body name="FR_leg_a" pos="0.1083 0.0625 0.02" quat="0.866025 0 0 -0.500001">
+        <inertial pos="0.02 0 0" mass="0.175" diaginertia="0.00012 0.00012 8e-05"/>
+        <joint name="FR_coxa_joint" axis="0 0 1" range="-1.5708 1.5708"/>
+        <geom size="0.025 0.015 0.02" quat="0.707105 0 0 0.707108" type="box" rgba="0.2 0.2 0.2 1"/>
+        <body name="FR_leg_b" pos="0 0.03 -0.005" quat="1.32679e-06 0 0 1">
+          <inertial pos="0 -0.016 0" mass="0.205" diaginertia="0.00035 0.00035 9e-05"/>
+          <joint name="FR_femur_joint" axis="1 0 0" range="-1.5708 1.5708"/>
+          <geom size="0.015 0.015 0.0425" pos="0 -0.0425 0" quat="0.707105 0.707108 0 0" type="box" rgba="1 0.84 0 1"/>
+          <body name="FR_leg_c" pos="0 -0.085 0" quat="0.707105 0 0 0.707108">
+            <inertial pos="0.08 0 -0.08" mass="0.18" diaginertia="0.0006 0.0006 5e-05"/>
+            <joint name="FR_tibia_joint" axis="0 1 0" range="-1.5708 1.5708"/>
+            <geom size="0.012 0.012 0.08" pos="0 0 -0.08" type="box" rgba="0.2 0.2 0.2 1"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- FL: Front-Left -->
+      <body name="FL_leg_a" pos="-0.1083 0.0625 0.02" quat="0.866025 0 0 0.500001">
+        <inertial pos="0.02 0 0" mass="0.175" diaginertia="0.00012 0.00012 8e-05"/>
+        <joint name="FL_coxa_joint" axis="0 0 1" range="-1.5708 1.5708"/>
+        <geom size="0.025 0.015 0.02" quat="0.707105 0 0 0.707108" type="box" rgba="0.2 0.2 0.2 1"/>
+        <body name="FL_leg_b" pos="0 0.03 -0.005" quat="1.32679e-06 0 0 1">
+          <inertial pos="0 -0.016 0" mass="0.205" diaginertia="0.00035 0.00035 9e-05"/>
+          <joint name="FL_femur_joint" axis="1 0 0" range="-1.5708 1.5708"/>
+          <geom size="0.015 0.015 0.0425" pos="0 -0.0425 0" quat="0.707105 0.707108 0 0" type="box" rgba="1 0.84 0 1"/>
+          <body name="FL_leg_c" pos="0 -0.085 0" quat="0.707105 0 0 0.707108">
+            <inertial pos="0 0 -0.08" mass="0.18" diaginertia="0.0006 0.0006 5e-05"/>
+            <joint name="FL_tibia_joint" axis="0 1 0" range="-1.5708 1.5708"/>
+            <geom size="0.012 0.012 0.08" pos="0 0 -0.08" type="box" rgba="0.2 0.2 0.2 1"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- RL: Rear-Left -->
+      <body name="RL_leg_a" pos="-0.1083 -0.0625 0.02" quat="0.499998 0 0 0.866027">
+        <inertial pos="0.02 0 0" mass="0.175" diaginertia="0.00012 0.00012 8e-05"/>
+        <joint name="RL_coxa_joint" axis="0 0 1" range="-1.5708 1.5708"/>
+        <geom size="0.025 0.015 0.02" quat="0.707105 0 0 0.707108" type="box" rgba="0.2 0.2 0.2 1"/>
+        <body name="RL_leg_b" pos="0 0.03 -0.005" quat="1.32679e-06 0 0 1">
+          <inertial pos="0 -0.016 0" mass="0.205" diaginertia="0.00035 0.00035 9e-05"/>
+          <joint name="RL_femur_joint" axis="1 0 0" range="-1.5708 1.5708"/>
+          <geom size="0.015 0.015 0.0425" pos="0 -0.0425 0" quat="0.707105 0.707108 0 0" type="box" rgba="1 0.84 0 1"/>
+          <body name="RL_leg_c" pos="0 -0.085 0" quat="0.707105 0 0 0.707108">
+            <inertial pos="0 0 -0.08" mass="0.18" diaginertia="0.0006 0.0006 5e-05"/>
+            <joint name="RL_tibia_joint" axis="0 1 0" range="-1.5708 1.5708"/>
+            <geom size="0.012 0.012 0.08" pos="0 0 -0.08" type="box" rgba="0.2 0.2 0.2 1"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- RR: Rear-Right -->
+      <body name="RR_leg_a" pos="0.1083 -0.0625 0.02" quat="0.499998 0 0 -0.866027">
+        <inertial pos="0.02 0 0" mass="0.175" diaginertia="0.00012 0.00012 8e-05"/>
+        <joint name="RR_coxa_joint" axis="0 0 1" range="-1.5708 1.5708"/>
+        <geom size="0.025 0.015 0.02" quat="0.707105 0 0 0.707108" type="box" rgba="0.2 0.2 0.2 1"/>
+        <body name="RR_leg_b" pos="0 0.03 -0.005" quat="1.32679e-06 0 0 1">
+          <inertial pos="0 -0.016 0" mass="0.205" diaginertia="0.00035 0.00035 9e-05"/>
+          <joint name="RR_femur_joint" axis="1 0 0" range="-1.5708 1.5708"/>
+          <geom size="0.015 0.015 0.0425" pos="0 -0.0425 0" quat="0.707105 0.707108 0 0" type="box" rgba="1 0.84 0 1"/>
+          <body name="RR_leg_c" pos="0 -0.085 0" quat="0.707105 0 0 0.707108">
+            <inertial pos="0 0 -0.08" mass="0.18" diaginertia="0.0006 0.0006 5e-05"/>
+            <joint name="RR_tibia_joint" axis="0 1 0" range="-1.5708 1.5708"/>
+            <geom size="0.012 0.012 0.08" pos="0 0 -0.08" type="box" rgba="0.2 0.2 0.2 1"/>
+          </body>
+        </body>
+      </body>
+
+    </body>
+  </worldbody>
+
+  <!--
+    Attuatori position-control (PD) su tutti e 12 i giunti.
+    kp=15 dal default, forcerange=[-10,10] N·m.
+    Ordine: FR, FL, RL, RR  (coxa, femur, tibia per ognuna) = 12 attuatori
+  -->
+  <actuator>
+    <position name="FR_coxa_motor"  joint="FR_coxa_joint"  ctrlrange="-1.5708 1.5708"/>
+    <position name="FR_femur_motor" joint="FR_femur_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="FR_tibia_motor" joint="FR_tibia_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="FL_coxa_motor"  joint="FL_coxa_joint"  ctrlrange="-1.5708 1.5708"/>
+    <position name="FL_femur_motor" joint="FL_femur_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="FL_tibia_motor" joint="FL_tibia_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="RL_coxa_motor"  joint="RL_coxa_joint"  ctrlrange="-1.5708 1.5708"/>
+    <position name="RL_femur_motor" joint="RL_femur_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="RL_tibia_motor" joint="RL_tibia_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="RR_coxa_motor"  joint="RR_coxa_joint"  ctrlrange="-1.5708 1.5708"/>
+    <position name="RR_femur_motor" joint="RR_femur_joint" ctrlrange="-1.5708 1.5708"/>
+    <position name="RR_tibia_motor" joint="RR_tibia_joint" ctrlrange="-1.5708 1.5708"/>
+  </actuator>
+
+</mujoco>

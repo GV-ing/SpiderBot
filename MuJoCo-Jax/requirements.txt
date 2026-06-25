@@ -1,0 +1,15 @@
+# ==========================================
+# SpiderBot RL - Dependencies
+# Target: CPU AMD Ryzen 7 7700 (JAX/MJX)
+# ==========================================
+
+jax[cpu]>=0.4.20
+flax>=0.7.2
+optax>=0.1.7
+
+mujoco>=3.1.2
+brax>=0.10.0
+
+
+numpy>=1.24.0,<2.0.0
+pygame>=2.5.2
