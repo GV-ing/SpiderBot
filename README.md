@@ -97,7 +97,8 @@ python train_spider.py
 To visualize results or deploy a pre-trained policy:
 
 ```bash
-python enjoy_spider.py --policy spider_policy_best.pkl
+python export_json.py 
+python enjoy_spider.py 
 ```
 
 ---
