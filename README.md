@@ -7,7 +7,7 @@
 
 ## 🚀 Project Overview
 
-**SpiderBot** is a quadrupedal robot with **12 degrees of freedom (DOF)**. The physical architecture is an evolution of an original hexapod design created by *emrekalem*. We structurally modified and adapted the original files into a quadrupedal configuration. 
+**SpiderBot** is a quadrupedal robot with **12 degrees of freedom (DOF)**. The physical architecture is an evolution of an original hexapod design created by user *emrekalem*. We structurally modified and adapted the original files into a quadrupedal configuration. 
 
 The project covers 3 different macroareas: from open-loop simulation and training via end-to-end **Deep Reinforcement Learning (DRL)**, through to physical implementation on real hardware.
 
@@ -77,7 +77,7 @@ The physical system is based on a **Master-Slave** topology to optimize computat
 ### 1. Kinematic Simulation (MATLAB)
 
 1. Open MATLAB and navigate to the `MatLab/` folder.
-2. Open and launch the Simulink model `open_loop.slx` whit chosen gait.
+2. Open and launch the Simulink model `open_loop.slx` with chosen gait.
 3. Run `graphs.m` to generate all the necessary graphs.
 
 ### 2. DRL Training (Python/JAX)
