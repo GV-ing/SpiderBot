@@ -7,17 +7,15 @@
 
 ## 🚀 Project Overview
 
-**SpiderBot** is a quadrupedal robot with **12 degrees of freedom (DOF)**. The physical architecture is an evolution of an original hexapod design created by *emrekalem*. We structurally modified and adapted the original files into a quadrupedal configuration, maintaining a regular hexagonal geometry to ensure a robust and scalable control architecture. 
+**SpiderBot** is a quadrupedal robot with **12 degrees of freedom (DOF)**. The physical architecture is an evolution of an original hexapod design created by *emrekalem*. We structurally modified and adapted the original files into a quadrupedal configuration. 
 
-The project covers the full mechatronic stack: from geometric design to simulation and training via end-to-end **Deep Reinforcement Learning (DRL)**, through to physical implementation on real hardware.
+The project covers 3 different macroareas: from open-loop simulation and training via end-to-end **Deep Reinforcement Learning (DRL)**, through to physical implementation on real hardware.
 
 ### ✨ Key Features
 
-- **Optimized Hexagonal Geometry:** Regular hexagonal-symmetry chassis providing an exceptionally wide and stable static support base.
 - **Dual Control Paradigm:**
   - *Open-Loop Kinematics:* Time-varying analytical gait generator (Creep, Trot, Gallop, Pace).
   - *End-to-End Neural Controller:* Control based on DRL policies learned directly in accelerated physics simulation.
-- **High-Performance Simulation:** Pipeline based on **JAX, Brax, and MuJoCo MJX** for massively parallel training on GPU/CPU.
 - **Efficient Hardware:** Master-Slave architecture based on an Arduino MCU and PCA9685 PWM driver via I2C for synchronous management of 12 MZ996R servomotors.
 
 ---
@@ -28,9 +26,9 @@ The project covers the full mechatronic stack: from geometric design to simulati
 
 The classical kinematic pipeline, implemented in MATLAB/Simulink, is structured on three hierarchical levels:
 
-1. **High-level Trajectory Planner:** Computes the desired 3D Cartesian coordinates of each foot relative to the robot body frame.
-2. **Mid-level Spatial Transformation Layer:** Converts Cartesian footprints into joint angles via a geometric Inverse Kinematics (IK) solver.
-3. **Low-level Actuation Layer:** Sends PWM commands to individual servomotors (Coxa, Femur, Tibia) while synchronizing the digital twin.
+1. **Gait Generator:** Computes the desired 3D Cartesian coordinates of each foot relative to the robot body frame.
+2. **Inverse Kinematics:** Converts Cartesian footprints into joint angles via a geometric Inverse Kinematics (IK) solver.
+3. **URDF / SpiderBot:** Sends PWM commands to individual servomotors (Coxa, Femur, Tibia) while synchronizing the digital twin.
 
 #### 🐾 Implemented Gaits
 
@@ -38,16 +36,16 @@ The classical kinematic pipeline, implemented in MATLAB/Simulink, is structured 
 | :--- | :--- | :--- | :--- |
 | **Creep Gait** | 4-beat | `[0, 25, 50, 75]` (T = 2.0s) | Maximum stability on uneven terrain. |
 | **Trot Gait** | 2-beat | `[0, 50, 50, 0]` (T = 0.6s) | Medium-to-high speed gait with synchronized diagonal pairs. |
-| **Gallop Gait** | High speed | Pulse synchronization | Maximum dynamic reactivity. |
-| **Pace Gait** | 2-beat | Lateral synchronization | Coordinated movement of limbs on the same side. |
+| **Gallop Gait** | High speed | `[0, 10, 50, 60]` (T = 0.6s) | Maximum dynamic reactivity. |
+| **Pace Gait** | 2-beat | `[0, 50, 0, 50]` (T = 0.8s) | Coordinated movement of limbs on the same side. |
 
 ### 2. Deep Reinforcement Learning (End-to-End)
 
 As an alternative to classical control, SpiderBot implements an **End-to-End Neural Controller** paradigm. The neural network maps the physical state directly to joint angle targets.
 
 - **Observation Space (35D):** Includes orientation (quaternions), angular velocity, gait phase, and current joint positions.
-- **Action Space (12D):** Angular targets in $[-2.5, 2.5]$ rad for the 12 motors.
-- **Teleoperated Learning Reward:** Multi-axis tracking optimization via exponential Gaussian reward functions, with dedicated penalties to eliminate lateral drift ($v_x$).
+- **Action Space (12D):** Angular targets in $[-1.5, 1.5]$ rad for the 12 motors.
+- **Teleoperated Learning Reward:** Multi-axis tracking optimization via exponential Gaussian reward functions, with dedicated penalties to eliminate lateral drifts.
 
 ---
 
@@ -79,12 +77,12 @@ The physical system is based on a **Master-Slave** topology to optimize computat
 ### 1. Kinematic Simulation (MATLAB)
 
 1. Open MATLAB and navigate to the `MatLab/` folder.
-2. Run `graphs.m` to initialize the gait variables.
-3. Open and launch the Simulink model `open_loop.slx`.
+2. Open and launch the Simulink model `open_loop.slx` whit chosen gait.
+3. Run `graphs.m` to generate all the necessary graphs.
 
 ### 2. DRL Training (Python/JAX)
 
-Make sure you have an environment with CUDA support to take advantage of MJX:
+Set up your Python environment and install the required dependencies:
 
 ```bash
 cd MuJoCo-Jax
