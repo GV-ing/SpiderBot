@@ -7,7 +7,9 @@
 
 ## 🚀 Project Overview
 
-**SpiderBot** is a biomimetic quadrupedal robot with **12 degrees of freedom (DOF)**, engineered by combining a street-design aesthetic with a robust and scalable control architecture. The project covers the full mechatronic stack: from hexagonal geometric design to simulation and training via end-to-end **Deep Reinforcement Learning (DRL)**, through to physical implementation on real hardware.
+**SpiderBot** is a quadrupedal robot with **12 degrees of freedom (DOF)**. The physical architecture is an evolution of an original hexapod design created by *emrekalem*. We structurally modified and adapted the original files into a quadrupedal configuration, maintaining a regular hexagonal geometry to ensure a robust and scalable control architecture. 
+
+The project covers the full mechatronic stack: from geometric design to simulation and training via end-to-end **Deep Reinforcement Learning (DRL)**, through to physical implementation on real hardware.
 
 ### ✨ Key Features
 
@@ -51,16 +53,12 @@ As an alternative to classical control, SpiderBot implements an **End-to-End Neu
 
 ## 💻 Repository Structure
 
-```
-├── SpiderBot/             # Arduino firmware for local control (IK math & PWM execution)
-├── MatLab/                # Simulink open-loop models and kinematics plotting scripts
-│   ├── STL/               # 3D models of the chassis and links
-│   └── open_loop.slx      # Main simulation model
-├── MuJoCo-Jax/            # Massively parallel Reinforcement Learning pipeline
-│   ├── spider_env.py      # Brax / MuJoCo MJX environment definition
-│   ├── train_spider.py    # PPO training script
-│   └── spiderbot.xml      # MJCF robot description
-└── Mujoco-Jax-TEL/        # Telemetry and policy testing scripts
+```text
+├── Matlab/              # Simulink open-loop models and related graphs
+├── MuJoCo-Jax/          # DRL training pipeline, enjoy_env, export_json, policies, and XML model
+├── Mujoco-Jax-TEL/      # Telemetry, enjoy_env, export_json scripts, policies, and XML model
+├── Spiderbot/           # Arduino firmware for the physical robot and MATLAB script for teleoperation
+└── Spiderbot_urdf/      # URDF representation of the robot
 ```
 
 ---
