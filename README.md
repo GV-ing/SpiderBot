@@ -34,10 +34,10 @@ The classical kinematic pipeline, implemented in MATLAB/Simulink, is structured 
 
 | Gait | Type | Foot Scheduling Parameters | Description |
 | :--- | :--- | :--- | :--- |
-| **Creep Gait** | 4-beat | `[0, 25, 50, 75]` (T = 2.0s) | Maximum stability on uneven terrain. |
-| **Trot Gait** | 2-beat | `[0, 50, 50, 0]` (T = 0.6s) | Medium-to-high speed gait with synchronized diagonal pairs. |
-| **Gallop Gait** | High speed | `[0, 10, 50, 60]` (T = 0.6s) | Maximum dynamic reactivity. |
-| **Pace Gait** | 2-beat | `[0, 50, 0, 50]` (T = 0.6s) | Coordinated movement of limbs on the same side. |
+| **Creep Gait** | 4-beat | `[0.50, 0.00, 0.75, 0.25]` (T = 2.0s) | Maximum stability on uneven terrain. |
+| **Trot Gait** | 2-beat | `[0.00, 0.50, 0.50, 0.00]` (T = 0.6s) | Medium-to-high speed gait with synchronized diagonal pairs. |
+| **Gallop Gait** | High speed | `[0.00 0.10 0.50 0.60]` (T = 0.6s) | Maximum dynamic reactivity. |
+| **Pace Gait** | 2-beat | `[0.00, 0.50, 0.50, 0.00]` (T = 0.6s) | Coordinated movement of limbs on the same side. |
 
 ### 2. Deep Reinforcement Learning (End-to-End)
 
