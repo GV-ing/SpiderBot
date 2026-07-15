@@ -3,7 +3,7 @@
 % Controllo SpiderBot con Joystick + Cambio Marcia (Creep/Trot)
 % =========================================================================
 
-porta_com = "COM7"; 
+porta_com = "COM6"; 
 baud_rate = 115200;
  
 if exist('device', 'var'), clear device; end
